@@ -1,0 +1,44 @@
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+#title {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+#form_wrapper {
+    width:50%;
+    background-color: whitesmoke;
+    padding: 30px;
+    margin: auto;
+}
+
+
+
+/* The login form */
+
+table {
+    text-align: right;
+    margin: auto;
+}
+
+tr {
+    margin-top: 30px;
+}
+
+td {
+    padding-right: 10px;
+}
+
+input {
+  padding: 10px;
+  border: none;
+  border-bottom: solid 2px #c9c9c9;
+  transition: border 0.3s;
+}
+input:focus,
+input.focus {
+  border-bottom: solid 3px #969696;
+  outline: none;
+}

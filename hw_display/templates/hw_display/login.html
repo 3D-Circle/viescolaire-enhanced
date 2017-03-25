@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'hw_display/login.css' %}">
+    <title>Login</title>
+</head>
+<body>
+    <div id="form_wrapper">
+        <form action="">
+            <div id="title">
+                <center>VS Enhanced</center>
+            </div>
+            <table cellspacing="15">
+                <tbody>
+                    <tr>
+                        <td>
+                            Email
+                        </td>
+                        <td>
+                            <input type="text" placeholder="Enter mail" name="email" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Password</label>
+                        </td>
+                        <td>
+                            <input type="password" placeholder="Enter Password" name="pass" required>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
