@@ -3,3 +3,5 @@ Django
 gunicorn
 psycopg2
 whitenoise
+requests
+bs4

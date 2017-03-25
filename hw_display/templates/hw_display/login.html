@@ -9,7 +9,8 @@
 </head>
 <body>
     <div id="form_wrapper">
-        <form action="">
+        <form method="post">
+            {% csrf_token %}
             <div id="title">
                 <center>VS Enhanced</center>
             </div>
@@ -29,6 +30,11 @@
                         </td>
                         <td>
                             <input type="password" placeholder="Enter Password" name="pass" required>
+                        </td>
+                    </tr>
+                    <tr style="text-align:center;">
+                        <td colspan="2">
+                            <input type="submit" value="Login">
                         </td>
                     </tr>
                 </tbody>

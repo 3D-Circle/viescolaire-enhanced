@@ -5,15 +5,15 @@
 #title {
     font-size: 48px;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 #form_wrapper {
     width:50%;
     background-color: whitesmoke;
-    padding: 30px;
+    padding: 10px 20px 5px 20px;
     margin: auto;
 }
-
 
 
 /* The login form */
@@ -32,13 +32,18 @@ td {
 }
 
 input {
-  padding: 10px;
-  border: none;
-  border-bottom: solid 2px #c9c9c9;
-  transition: border 0.3s;
+    padding: 10px;
+    border: none;
+    border-bottom: solid 2px #c9c9c9;
+    transition: border 0.3s;
 }
 input:focus,
 input.focus {
-  border-bottom: solid 3px #969696;
-  outline: none;
+    border-bottom: solid 3px #969696;
+    outline: none;
+}
+
+input[type="submit"] {
+    margin-top: 5px;
+    padding: 10px 50px 10px 50px;
 }
