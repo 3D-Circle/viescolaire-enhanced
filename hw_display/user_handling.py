@@ -5,10 +5,10 @@ import requests
 from bs4 import BeautifulSoup
 
 
-LOGIN_URL = "https: // viescolaire.ecolejeanninemanuel.net / auth.php"
+LOGIN_URL = "https://viescolaire.ecolejeanninemanuel.net/auth.php"
 
 
-class CustomAuth:
+class ViescolaireAuth:
     """
     Authenticate against the settings ADMIN_LOGIN and ADMIN_PASSWORD.
 
@@ -17,14 +17,13 @@ class CustomAuth:
     ADMIN_LOGIN = 'admin'
     ADMIN_PASSWORD = 'pbkdf2_sha256$30000$Vo0VlMnkR4Bk$qEvtdyZRWTcOsCnI/oQ7fVOu1XAURIZYoOZ3iq8Dr4M='
     """
-
-    def authenticate(self, username=None, password=None):
+    def authenticate(self, template_name=None, username=None, password=None, **kwargs):
         playload = {'login': username, 'mdp': password}
         user_session = requests.Session()
         r = user_session.post(LOGIN_URL, data=playload)
         response = BeautifulSoup(r.content, "html.parser")
         login_success = "Erreur - Le mot de passe est incorrecte. Veuillez réessayer." not in response
-
+        print("AUTH")
         if login_success:
             try:
                 user = User.objects.get(username=username)

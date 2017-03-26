@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="form_wrapper">
-        <form method="post">
+        <form action="{% url 'user_handling.ViescolaireAuth.authenticate' %}" method="post">
             {% csrf_token %}
             <div id="title">
                 <center>VS Enhanced</center>

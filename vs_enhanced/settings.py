@@ -136,3 +136,9 @@ STATICFILES_DIRS = [
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Added custom auth method
+AUTHENTICATION_BACKENDS = [
+    'hw_display.user_handling.ViescolaireAuth'
+    #'django.contrib.auth.backends.ModelBackend'
+]
