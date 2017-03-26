@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="form_wrapper">
-        <form action="{% url 'user_handling.ViescolaireAuth.authenticate' %}" method="post">
+        <form action="{% url 'loginuser' %}" method="post">
             {% csrf_token %}
             <div id="title">
                 <center>VS Enhanced</center>
@@ -21,7 +21,7 @@
                             Email
                         </td>
                         <td>
-                            <input type="text" placeholder="Enter mail" name="email" required>
+                            <input type="text" placeholder="Enter mail" name="username" required>
                         </td>
                     </tr>
                     <tr>
@@ -29,7 +29,7 @@
                             <label>Password</label>
                         </td>
                         <td>
-                            <input type="password" placeholder="Enter Password" name="pass" required>
+                            <input type="password" placeholder="Enter Password" name="password" required>
                         </td>
                     </tr>
                     <tr style="text-align:center;">

@@ -139,6 +139,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Added custom auth method
 AUTHENTICATION_BACKENDS = [
-    'hw_display.user_handling.ViescolaireAuth'
-    #'django.contrib.auth.backends.ModelBackend'
+    'django.contrib.auth.backends.ModelBackend'
 ]
+
+LOGIN_REDIRECT_URL = '/'
+
