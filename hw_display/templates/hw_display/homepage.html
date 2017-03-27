@@ -5,6 +5,9 @@
     <title>Homepage</title>
 </head>
 <body>
-    Hullo
+    {{ status }}
+    {% if user.is_authenticated %}
+        Howdy, {{ request.user.username }}.
+    {% endif %}
 </body>
 </html>
