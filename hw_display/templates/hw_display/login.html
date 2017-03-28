@@ -16,6 +16,13 @@
             </div>
             <table cellspacing="15">
                 <tbody>
+                    {% if invalid %}
+                        <tr style="text-align:center;color:red;">
+                            <td colspan="2">
+                                Invalid credentials, please try again.
+                            </td>
+                        </tr>
+                    {% endif %}
                     <tr>
                         <td>
                             Email
