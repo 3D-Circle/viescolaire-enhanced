@@ -2,19 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'hw_display/hw_list.css' %}">
     <title>Hw List</title>
 </head>
 <body>
+    <div id="title">
+        Homework!
+    </div>
 
-    <table>
+    <div id="main_wrapper">
+        <div id="control_bar">
+            {% if user.is_authenticated %}
+                Howdy, {{ request.user.username }}.
+            {% endif %}
+            <button class="top_control_button">
+                Settings
+            </button>
+            <button class="top_control_button">
+                Logout
+            </button>
+        </div>
+
+        <table>
         <tbody>
             {% for hw in hw_dict %}
                 <tr>
-                    {{ hw.title }}
+                    <td style="text-align: center;">
+                        {{ hw.subject }}
+                    </td>
+                    <td>
+                        {{ hw.title }}
+                    </td>
+                    <td>
+                        {{ hw.days_left }}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-
+    </div>
 </body>
 </html>

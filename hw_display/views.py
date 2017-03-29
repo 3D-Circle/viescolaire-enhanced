@@ -39,17 +39,16 @@ def login_render(request, invalid=False):
 
 
 def show_hw_list(request):
-    print("Auth ?", request.user.is_authenticated(), "-- Stuff ?", hasattr(request.session, 'username'))
-    username = request.session['username']
-    password = request.session['password']
-    if request.user.is_authenticated() and username:
+    username = request.session.get('username')
+    password = request.session.get('password')
+    if request.user.is_authenticated() and username and password:
         payload = {'login': username, 'mdp': password}
         try:
             hw = Homework(payload)  # checking validity of password
         except InvalidCredentials:
             return redirect("login_form", invalid=True)
         else:
-            hw_dict = hw.get_all()
-            return render(request, "hw_display/homepage.html", {"hw_dict": hw_dict})
+            hw_dict = [i[1] for i in hw.get_all()]
+            return render(request, "hw_display/hw_list.html", {"hw_dict": hw_dict})
     else:
         return redirect('login_form')

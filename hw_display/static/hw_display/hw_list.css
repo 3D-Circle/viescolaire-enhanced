@@ -1,0 +1,47 @@
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* top part */
+#title {
+    text-align: center;
+    background: whitesmoke;
+    font-size: 48px;
+    padding: 30px 0px 30px 0px;
+    margin: 2px 20% 20px 20%;
+}
+
+#control_bar {
+    padding: 10px 10px 10px 10px;
+    text-align: center;
+}
+
+.top_control_button {
+    border: none;
+    padding: 6px;
+    border-radius: 2px;
+    margin: 0px auto 0px auto;
+    background: rgba(255, 111, 55, .5);
+    display: inline-block;
+}
+
+.top_control_button:hover {
+    background: rgba(255, 111, 55, .8);
+}
+
+/* content */
+#main_wrapper {
+    margin: 2px 20% 2px 20%;
+    background: whitesmoke;
+}
+
+table {
+    margin: auto;
+    /*text-align: center;*/
+    border-collapse: collapse;
+}
+
+td {
+   border: 1px solid black;
+   padding: 5px 10px 5px 10px;
+}
