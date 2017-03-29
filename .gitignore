@@ -3,3 +3,6 @@ venv
 staticfiles
 .env
 .idea/
+hw_display/__pycache__/
+hw_display/migrations/__pycache__/
+vs_enhanced/__pycache__/
