@@ -11,9 +11,9 @@ LOGIN_URL = "https://viescolaire.ecolejeanninemanuel.net/auth.php"
 def homepage(request):
     """render the homepage"""
     if request.user.is_authenticated() and hasattr(request.session, 'username'):
-        playload = {'login': request.session.username, 'mdp': request.session.password}
+        payload = {'login': request.session.username, 'mdp': request.session.password}
         try:
-            hw = Homework(playload)  # checking validity of password
+            hw = Homework(payload)  # checking validity of password
         except InvalidCredentials:
             return login_render(request, invalid=True)
         else:
@@ -26,9 +26,9 @@ def homepage(request):
 def vs_login(request):
     username = request.POST['username'].lower()  # lowercase email is still the same
     password = request.POST['password']
-    playload = {'login': username, 'mdp': password}
+    payload = {'login': username, 'mdp': password}
     try:
-        hw = Homework(playload)
+        hw = Homework(payload)
     except InvalidCredentials:
         return login_render(request, invalid=True)
     user = authenticate(username=username, password=password)

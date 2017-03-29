@@ -1,7 +1,5 @@
-dj-database-url
-Django
-gunicorn
-psycopg2
-whitenoise
-requests
-bs4
+dj_database_url==0.4.2
+Django==1.10.5
+requests==2.12.4
+whitenoise==3.3.0
+beautifulsoup4==4.5.3
