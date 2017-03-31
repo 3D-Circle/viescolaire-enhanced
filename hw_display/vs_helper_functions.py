@@ -64,7 +64,7 @@ class Homework(object):
                 # Store content inside data dict
                 stored = self.data_dict[_id]  # index
                 stored['title'] = title  # 0
-                stored['subject'] = subject  # 1
+                stored['subject'] = subject.lower().capitalize()  # 1
                 stored['date_class'] = date_class  # 2
                 stored['date_due'] = date_due  # 3
                 stored['days_left'] = days_left  # 4

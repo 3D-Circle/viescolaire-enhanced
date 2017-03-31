@@ -2,5 +2,5 @@ dj_database_url
 Django
 requests
 whitenoise
-beautifulsoup4
+bs4
 gunicorn

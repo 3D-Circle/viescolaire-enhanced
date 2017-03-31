@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} Logout {% endblock %}
+
+{% block extra_head %}
+<script type="text/javascript">
+    // redirect user after timeout
+    setTimeout(function() {
+        window.location.href = "/login/";
+    }, 2000);
+</script>
+<style>
+    * {
+        font-family: 'Fira Sans', sans-serif;
+    }
+    #wrapper {
+        background-color: whitesmoke;
+        margin: auto 20% auto 20%;
+        text-align: center;
+        padding: 50px;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div id="wrapper">
+    Logout successful. See you soon ! <br><br>
+    <i>Redirecting to login page ...</i>
+</div>
+{% endblock %}

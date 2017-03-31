@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends 'base.html' %}
+
+{% block title %} Homework List {% endblock %}
+
+{% block extra_head %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'hw_display/hw_list.css' %}">
-    <title>Hw List</title>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
     <div id="title">
         Homework!
     </div>
@@ -19,9 +20,11 @@
             <button class="top_control_button">
                 Settings
             </button>
-            <button class="top_control_button">
-                Logout
-            </button>
+            <a href="/logout/">
+                <button class="top_control_button">
+                    Logout
+                </button>
+            </a>
         </div>
 
         <table>
@@ -42,5 +45,4 @@
         </tbody>
     </table>
     </div>
-</body>
-</html>
+{% endblock %}

@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends 'base.html' %}
+
+{% block title %} Login {% endblock %}
+
+{% block extra_head %}
     {% load static %}
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'hw_display/login.css' %}">
-    <title>Login</title>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
     <div id="form_wrapper">
         <form action="{% url 'login_user' %}" method="post">
             {% csrf_token %}
@@ -48,5 +48,4 @@
             </table>
         </form>
     </div>
-</body>
-</html>
+{% endblock %}
