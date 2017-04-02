@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'template_name': 'hw_display/logout.html'}, name='logout'),
     # hw
     url(r'^devoirs/', views.show_hw_list, name="hw_list"),
+    url(r'devoir_id=([0-9]+)', views.get_hw_by_id, name="individual_hw")
 ]

@@ -34,8 +34,8 @@ def vs_login(request):
     return redirect("hw_list")
 
 
-def login_render(request, invalid=False):
-    return render(request, "hw_display/login.html", {'invalid': invalid})
+def login_render(request, invalid=False, unauthorized=False):
+    return render(request, "hw_display/login.html", {'invalid': invalid, 'unauthorized': unauthorized})
 
 
 def show_hw_list(request):
@@ -52,3 +52,14 @@ def show_hw_list(request):
             return render(request, "hw_display/hw_list.html", {"hw_dict": hw_dict})
     else:
         return redirect('login_form')
+
+
+def get_hw_by_id(request, _id):
+    username = request.session.get('username')
+    password = request.session.get('password')
+    if username and password:
+        obj = Homework(payload={'login': username, 'mdp': password})
+        hw = obj.get_hw_by_id(_id)
+        return render(request, 'hw_display/individual_hw.html', {'hw_details': hw})
+    else:
+        return redirect('login_form', unauthorized=True)

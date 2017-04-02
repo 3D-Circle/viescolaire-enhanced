@@ -22,7 +22,14 @@
                                 Invalid credentials, please try again.
                             </td>
                         </tr>
+                    {% elif unauthorized %}
+                        <tr style="text-align:center;color:orange;">
+                            <td colspan="2">
+                                You must be logged in to access this page.
+                            </td>
+                        </tr>
                     {% endif %}
+
                     <tr>
                         <td>
                             Email

@@ -62,17 +62,25 @@ class Homework(object):
                 description = [content[i] for i in range(20, len(content) - 1)]
                 description = '<br />'.join(description)
                 # Store content inside data dict
+                if _id not in self.data_dict:
+                    # necessary for fetching ids not in our hw
+                    self.data_dict[_id] = {}
                 stored = self.data_dict[_id]  # index
+                stored['id'] = int(_id.split('\n')[0][3:])
                 stored['title'] = title  # 0
                 # `if` necessary for MPS, SES, etc
                 stored['subject'] = subject.lower().capitalize() if len(subject) > 3 else subject.upper()  # 1
                 stored['date_class'] = date_class  # 2
                 stored['date_due'] = date_due  # 3
                 stored['days_left'] = days_left  # 4
-                stored['time_est'] = time_est  # 5
+                stored['time_est'] = time_est if time_est != '-' else None # 5
                 stored['description'] = description  # 6
+                return stored
 
     def get_all(self):
         for hw in self.data_dict.keys():
             self.get_content_sorted(hw)
         return sorted(self.data_dict.items(), key=lambda x: (int(x[1]['days_left']), x[1]['subject']))
+
+    def get_hw_by_id(self, _id):
+        return self.get_content_sorted('id={}'.format(_id))

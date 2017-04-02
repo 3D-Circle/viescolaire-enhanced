@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'hw_display/base.css' %}">
     <title> {% block title %}{% endblock %} </title>
     {% block extra_head %}{% endblock %}
 </head>

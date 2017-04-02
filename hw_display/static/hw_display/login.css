@@ -2,10 +2,6 @@
 Background: rgba(0, 39, 123, .13)
 */
 
-* {
-    font-family: 'Fira Sans', sans-serif;
-}
-
 #title {
     font-size: 48px;
     margin-bottom: 20px;
@@ -19,7 +15,6 @@ Background: rgba(0, 39, 123, .13)
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
-    font-size: 18px;
 }
 
 

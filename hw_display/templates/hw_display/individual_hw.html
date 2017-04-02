@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %} HW {% endblock %}
+
+{% block content %}
+    <div id="subject">
+       {{ hw_details.subject }}
+    </div>
+
+    <div id="title">
+        {{hw_details.title }}
+    </div>
+
+    <div id="additional_info">
+        Estimated time:
+        {% if hw_details.time_est %}
+            {{ hw_details.time_est }}
+        {% else %}
+            Not specified.
+        {% endif %}
+        Class date: {{ hw_details.date_class }}
+        Due data: {{ hw_details.date_due }}
+        Days left: {{hw_details.days_left}}
+    </div>
+
+    <div id="details">
+        {{ hw_details.description|safe }}
+    </div>
+{% endblock %}

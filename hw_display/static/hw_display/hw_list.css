@@ -48,7 +48,7 @@ Buttons    | rgba(255, 195, 102, 0.81)
 
 table {
     margin: auto;
-    /*text-align: center;*/
+    /*text-align: center; maybe we'll put it back ?*/
     border-collapse: collapse;
 }
 
@@ -57,10 +57,11 @@ td {
    padding: 5px 10px 5px 10px;
 }
 
+/* hw link */
 .hw_link {
-  transition: color .4s;
-  color: #265C83;
-  text-decoration: underline;
+    transition: color .4s;
+    color: #265C83;
+    text-decoration: underline;
 }
 
 .hw_link:link, .hw_link:visited {
@@ -68,7 +69,7 @@ td {
 }
 
 .hw_link:hover {
-    color: #7FDBFF;
+    color: #42AB4B;
 }
 
 .hw_link:active {
