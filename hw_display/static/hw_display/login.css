@@ -1,3 +1,7 @@
+/*
+Background: rgba(0, 39, 123, .13)
+*/
+
 * {
     font-family: 'Fira Sans', sans-serif;
 }
@@ -10,7 +14,7 @@
 
 #form_wrapper {
     width:50%;
-    background-color: whitesmoke;
+    background-color: rgba(0, 39, 123, .13);
     padding: 10px 20px 5px 20px;
     margin-left: auto;
     margin-right: auto;
@@ -37,13 +41,12 @@ td {
 input {
     padding: 10px;
     border: none;
-    border-bottom: solid 2px #c9c9c9;
+    border-bottom: solid 2px #A4A4A4;
     transition: border 0.3s;
 }
 
-input:focus,
-input.focus {
-    border-bottom: solid 3px #969696;
+input:focus, input.focus {
+    border-bottom: solid 3px #A4A4A4;
     outline: none;
 }
 
@@ -51,4 +54,5 @@ input[type="submit"] {
     margin-top: 5px;
     padding: 10px 50px 10px 50px;
     font-size: 18px;
+    background-color: rgb(212, 212, 212);
 }

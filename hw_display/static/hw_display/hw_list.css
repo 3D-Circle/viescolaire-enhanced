@@ -1,3 +1,9 @@
+/*
+Color Scheme:
+Background | rgba(177, 195, 200, 0.5)
+Buttons    | rgba(255, 195, 102, 0.81)
+*/
+
 * {
     font-family: 'Fira Sans', sans-serif;
 }
@@ -5,7 +11,7 @@
 /* top part */
 #title {
     text-align: center;
-    background: whitesmoke;
+    background: rgba(177, 195, 200, 0.5);
     font-size: 48px;
     padding: 30px 0px 30px 0px;
     margin: 2px 20% 20px 20%;
@@ -21,7 +27,7 @@
     padding: 6px;
     border-radius: 2px;
     margin: 0px auto 0px auto;
-    background: rgba(255, 111, 55, .5);
+    background: rgba(255, 195, 102, 0.81);
     display: inline-block;
 }
 
@@ -29,10 +35,15 @@
     background: rgba(255, 111, 55, .8);
 }
 
+.button_link:focus {
+    outline: none;
+}
+
 /* content */
 #main_wrapper {
     margin: 2px 20% 2px 20%;
-    background: whitesmoke;
+    background: rgba(0, 39, 123, .13);
+    padding: 0 50px 50px 50px;
 }
 
 table {
@@ -42,6 +53,25 @@ table {
 }
 
 td {
-   border: 1px solid black;
+   border: 1px solid rgba(148, 148, 148, 1);
    padding: 5px 10px 5px 10px;
+}
+
+.hw_link {
+  transition: color .4s;
+  color: #265C83;
+  text-decoration: underline;
+}
+
+.hw_link:link, .hw_link:visited {
+    color: #265C83
+}
+
+.hw_link:hover {
+    color: #7FDBFF;
+}
+
+.hw_link:active {
+    transition: color .3s;
+    color: #007BE6;
 }

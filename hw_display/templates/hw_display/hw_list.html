@@ -20,7 +20,7 @@
             <button class="top_control_button">
                 Settings
             </button>
-            <a href="/logout/">
+            <a href="/logout/" class="button_link">
                 <button class="top_control_button">
                     Logout
                 </button>
@@ -35,7 +35,9 @@
                         {{ hw.subject }}
                     </td>
                     <td>
-                        {{ hw.title }}
+                        <a href="#" class="hw_link">
+                            {{ hw.title }}
+                        </a>
                     </td>
                     <td>
                         {{ hw.days_left }}
