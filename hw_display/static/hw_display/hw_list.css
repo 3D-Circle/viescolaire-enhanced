@@ -20,11 +20,7 @@ Buttons    | rgba(255, 195, 102, 0.81)
 #control_bar {
     padding: 10px 10px 10px 10px;
     text-align: center;
-}
-
-.top_control_button:hover {
-    background: rgba(255, 111, 55, .8);
-}
+} /* buttons are in base.css */
 
 /* content */
 #main_wrapper {
