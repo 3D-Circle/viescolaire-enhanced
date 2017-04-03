@@ -2,3 +2,28 @@ body {
     font-family: 'Fira Sans', sans-serif;
     font-size: 16px;
 }
+
+.main_wrapper {
+    background-color: rgba(0, 39, 123, .13);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+}
+
+/* buttons */
+.button {
+    border: none;
+    padding: 6px;
+    border-radius: 2px;
+    margin: 0px auto 0px auto;
+    background: rgba(255, 195, 102, 0.81);
+    display: inline-block;
+}
+
+.button_link {
+    text-decoration: none;
+}
+
+.button_link:focus {
+    outline: none;
+}

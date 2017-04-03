@@ -17,11 +17,11 @@
             {% if user.is_authenticated %}
                 Howdy, {{ request.user.username }}.
             {% endif %}
-            <button class="top_control_button">
+            <button class="top_control_button button">
                 Settings
             </button>
             <a href="/logout/" class="button_link">
-                <button class="top_control_button">
+                <button class="top_control_button button">
                     Logout
                 </button>
             </a>
@@ -35,7 +35,7 @@
                         {{ hw.subject }}
                     </td>
                     <td>
-                        <a href="#" class="hw_link">
+                        <a href="/devoir_id={{ hw.id }}" class="hw_link">
                             {{ hw.title }}
                         </a>
                     </td>
@@ -45,6 +45,6 @@
                 </tr>
             {% endfor %}
         </tbody>
-    </table>
+        </table>
     </div>
 {% endblock %}

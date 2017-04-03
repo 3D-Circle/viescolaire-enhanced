@@ -2,28 +2,57 @@
 
 {% block title %} HW {% endblock %}
 
+{% block extra_head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'hw_display/individual_hw.css' %}">
+{% endblock %}
+
 {% block content %}
-    <div id="subject">
-       {{ hw_details.subject }}
+    <div class="background_wrapper">
+        <div id="subject" class="hw_element">
+            <i>{{ hw_details.subject }}</i>
+        </div>
+
+        <div id="title" class="hw_element">
+            <b>{{hw_details.title }}</b>
+        </div>
+
+        <div id="additional_info" class="hw_element">
+            <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <i>Estimated time</i><br>
+                        {% if hw_details.time_est %}
+                            {{ hw_details.time_est }}
+                        {% else %}
+                            Not specified.
+                        {% endif %}
+                    </td>
+                    <td>
+                        <i>Class date:</i><br>
+                        {{ hw_details.date_class }}
+                    </td>
+                    <td>
+                        <i>Due date:</i><br>
+                        {{ hw_details.date_due }}
+                    </td>
+                    <td>
+                        <i>Days left: </i><br>
+                        {{hw_details.days_left}}
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        <div id="details" class="hw_element">
+            {{ hw_details.description|safe|urlize }}
+        </div>
     </div>
 
-    <div id="title">
-        {{hw_details.title }}
-    </div>
-
-    <div id="additional_info">
-        Estimated time:
-        {% if hw_details.time_est %}
-            {{ hw_details.time_est }}
-        {% else %}
-            Not specified.
-        {% endif %}
-        Class date: {{ hw_details.date_class }}
-        Due data: {{ hw_details.date_due }}
-        Days left: {{hw_details.days_left}}
-    </div>
-
-    <div id="details">
-        {{ hw_details.description|safe }}
-    </div>
+    <a href="/devoirs/" class="button_link">
+        <button id="back_button" class="button">
+            Go back
+        </button>
+    </a>
 {% endblock %}
