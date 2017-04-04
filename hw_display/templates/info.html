@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'hw_display/base.css' %}">
+    <title> {% block title %}{% endblock %} </title>
+    {% block extra_head %}{% endblock %}
+    <style>
+        #wrapper {
+            background-color: rgba(0, 39, 123, .13);
+            margin: auto 20% auto 20%;
+            text-align: center;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

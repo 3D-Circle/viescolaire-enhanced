@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ subject }} archives {% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="hw_display/hw_archive.html">
+{% endblock %}
+
+{% block content %}
+    <h3> {{ subject }} archives </h3>
+    <div class="main_wrapper">
+        <table>
+            <tbody>
+            {% for archive in archives %}
+                <tr>
+                    <td>{{ archive.date_class }}</td>
+                    <td>{{ archive.title }}</td>
+                    <td>{{ archive.teacher }}</td>
+                    <td>{{ archive.date_due }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

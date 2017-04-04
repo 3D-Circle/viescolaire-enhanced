@@ -2,6 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 
 
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0'}
+ARCHIVE_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/'
+
+
 class InvalidCredentials(Exception):
     def __init__(self, *args):
         super().__init__(*args)
@@ -10,7 +14,10 @@ class InvalidCredentials(Exception):
 class Homework(object):
     def __init__(self, payload):  # payload = get_login()
         self.session = requests.session()
-        post = self.session.post('https://viescolaire.ecolejeanninemanuel.net/auth.php', data=payload)
+        post = self.session.post(
+            'https://viescolaire.ecolejeanninemanuel.net/auth.php',
+            data=payload, headers=HEADERS
+        )
         self.data = BeautifulSoup(post.content, "html.parser")
 
         if "Erreur" in self.data.text:
@@ -18,7 +25,7 @@ class Homework(object):
 
         # homework dictionary
         self.data_dict = {}
-
+        self.subjects = {str(x.text): x['value'] for x in self.data.find(id="devMatChoice").find_all('option')}
         # Get homework titles and ids
         for div in self.data.findAll(class_='left'):
             for a in div.findAll('a'):
@@ -31,14 +38,13 @@ class Homework(object):
     # Get homework details
     def get_content(self, _id):  # format: _id = "id=1234"
         href = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_vw_devoir.php?'
-        info = self.session.get(href + _id)
+        info = self.session.get(href + _id, headers=HEADERS)
         details = BeautifulSoup(info.content, 'html.parser')
         content = details.text.replace('\t', '').replace('\r', '').replace('\xa0', ' ')
         content1, content2 = content.split("Temps moyen estimé")
         content1 = [_ for _ in content1.split('\n') if _]
         content2 = content2.split('\n')
         content2 = [content2[_] for _ in range(len(content2)) if content2[_] or content2[_ - 1]]
-        content2[-2] = "`"
         content = content1 + ['Temps'] + content2
         return content
 
@@ -84,3 +90,26 @@ class Homework(object):
 
     def get_hw_by_id(self, _id):
         return self.get_content_sorted('id={}'.format(_id))
+
+    def get_hw_archives(self, link):
+        raw_list = self.session.get(f'{ARCHIVE_ROOT}{link}', headers=HEADERS)
+        soup = BeautifulSoup(raw_list.content, 'html.parser')
+        rows = soup.find_all(class_='liste')[0].find_all('tr')
+        subject = soup.find('h4').text.split(' ')[-1]
+        hw_archive = []
+        for row in rows:
+            temp_dict = {}
+            if row.find_all('a'):
+                _id = row.find('a')
+                if 'id=' in _id['href']:
+                    temp_dict['id'] = int(_id['href'].split('=')[-1])
+                    temp_dict['date_class'] = row.find_all('td')[0].text
+                    temp_dict['title'] = row.find('a').text
+                    temp_dict['teacher'] = row.find_all('td')[2].text
+                    temp_dict['date_due'] = row.find_all('td')[3].text
+                    temp_dict['days_left'] = row.find_all('td')[4].text.split(' ')[0]
+                    for key, values in temp_dict.items():
+                        if type(values) is str:
+                            temp_dict[key] = values.replace('\t', '').replace('\r', '').replace('\n', '')
+            hw_archive.append(temp_dict)
+        return subject, hw_archive

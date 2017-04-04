@@ -4,10 +4,6 @@ Background | rgba(177, 195, 200, 0.5)
 Buttons    | rgba(255, 195, 102, 0.81)
 */
 
-* {
-    font-family: 'Fira Sans', sans-serif;
-}
-
 /* top part */
 #title {
     text-align: center;
@@ -58,4 +54,31 @@ td {
 .hw_link:active {
     transition: color .3s;
     color: #007BE6;
+}
+
+/* footer */
+#bottom_wrapper {
+    text-align: center;
+    margin: 20px 20% 2px 20%;
+}
+
+#bottom_wrapper * {
+    margin-left: 7px;
+}
+
+#bottom_wrapper button {
+    padding: 10px;
+}
+select {
+    margin: 3px;
+    border: 1px solid gray;
+    border-radius: 3px;
+    background: whitesmoke;
+    /*width: 200px;*/
+    padding: 5px;
+    height: 34px;
+    text-align: center;
+    /*-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;*/
 }

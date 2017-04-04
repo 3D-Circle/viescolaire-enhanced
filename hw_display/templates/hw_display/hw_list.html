@@ -47,4 +47,16 @@
         </tbody>
         </table>
     </div>
+
+    <div id="bottom_wrapper" class="main_wrapper">
+        <select name="subjectSelect" id="subjectSelect">
+            {% for subject in subjects %}
+                <option value="{{ subject }}">{{ subject }}</option>
+            {% endfor %}
+        </select>
+        <button class="button" onclick="">Homework Archive</button>
+        <a href="/work_in_class/something" class="button_link">
+            <button class="button">Work done in class</button>
+        </a>
+    </div>
 {% endblock %}
