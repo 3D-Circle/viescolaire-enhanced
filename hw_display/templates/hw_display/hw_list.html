@@ -5,10 +5,19 @@
 {% block extra_head %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'hw_display/hw_list.css' %}">
+
+    <script>
+        // takes value from subject choice and sends to corresponding page
+        function load_archive() {
+            var subject = $('select#subject_select').val();
+            window.location.href = '/archives?' + subject;
+        }
+
+    </script>
 {% endblock %}
 
 {% block content %}
-    <div id="title">
+    <div id="title" class="title_box">
         Homework!
     </div>
 
@@ -49,14 +58,12 @@
     </div>
 
     <div id="bottom_wrapper" class="main_wrapper">
-        <select name="subjectSelect" id="subjectSelect">
-            {% for subject in subjects %}
-                <option value="{{ subject }}">{{ subject }}</option>
+        <select name="subject_select" id="subject_select">
+            {% for subject, link in subjects.items %}
+                <option value="{{ link }}">{{ subject }}</option>
             {% endfor %}
         </select>
-        <button class="button" onclick="">Homework Archive</button>
-        <a href="/work_in_class/something" class="button_link">
-            <button class="button">Work done in class</button>
-        </a>
+        <button class="button" onclick="load_archive()">Homework Archive</button>
+        <button class="button" onclick="load_work_in_class()">Work done in class</button>
     </div>
 {% endblock %}

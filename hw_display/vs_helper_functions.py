@@ -25,7 +25,8 @@ class Homework(object):
 
         # homework dictionary
         self.data_dict = {}
-        self.subjects = {str(x.text): x['value'] for x in self.data.find(id="devMatChoice").find_all('option')}
+        self.subjects = {str(x.text): x['value'].split('?')[-1] for x in self.data.find(id="devMatChoice").find_all('option')}
+        print(self.subjects)
         # Get homework titles and ids
         for div in self.data.findAll(class_='left'):
             for a in div.findAll('a'):
@@ -111,5 +112,6 @@ class Homework(object):
                     for key, values in temp_dict.items():
                         if type(values) is str:
                             temp_dict[key] = values.replace('\t', '').replace('\r', '').replace('\n', '')
-            hw_archive.append(temp_dict)
+            if temp_dict:  # check if empty
+                hw_archive.append(temp_dict)
         return subject, hw_archive

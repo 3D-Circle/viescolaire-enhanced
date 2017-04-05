@@ -6,9 +6,6 @@ Buttons    | rgba(255, 195, 102, 0.81)
 
 /* top part */
 #title {
-    text-align: center;
-    background: rgba(177, 195, 200, 0.5);
-    font-size: 48px;
     padding: 30px 0px 30px 0px;
     margin: 2px 20% 20px 20%;
 }
@@ -69,16 +66,13 @@ td {
 #bottom_wrapper button {
     padding: 10px;
 }
+
 select {
     margin: 3px;
     border: 1px solid gray;
     border-radius: 3px;
     background: whitesmoke;
-    /*width: 200px;*/
     padding: 5px;
     height: 34px;
     text-align: center;
-    /*-webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;*/
 }

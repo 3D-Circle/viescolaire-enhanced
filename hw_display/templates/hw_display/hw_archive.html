@@ -3,23 +3,31 @@
 {% block title %} {{ subject }} archives {% endblock %}
 
 {% block extra_head %}
-    <link rel="stylesheet" href="hw_display/hw_archive.html">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'hw_display/hw_archive.css' %}">
 {% endblock %}
 
 {% block content %}
-    <h3> {{ subject }} archives </h3>
-    <div class="main_wrapper">
-        <table>
-            <tbody>
-            {% for archive in archives %}
-                <tr>
-                    <td>{{ archive.date_class }}</td>
-                    <td>{{ archive.title }}</td>
-                    <td>{{ archive.teacher }}</td>
-                    <td>{{ archive.date_due }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <div class="bg_wrapper">
+        <div class="main_wrapper title_box">
+            {{ subject }} archives
+        </div>
+        <div class="main_wrapper">
+            <a href="/devoirs" class="button_link">
+                <button class="button" style="margin-left:auto;margin-right:auto;display:block;">Back to homepage</button>
+            </a>
+            <table>
+                <tbody>
+                {% for archive in archives %}
+                    <tr>
+                        <td>{{ archive.date_class }}</td>
+                        <td>{{ archive.title }}</td>
+                        <td>{{ archive.teacher }}</td>
+                        <td>{{ archive.date_due }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}
