@@ -21,7 +21,7 @@
                 {% for archive in archives %}
                     <tr>
                         <td>{{ archive.date_class }}</td>
-                        <td>{{ archive.title }}</td>
+                        <td><a href="/devoir_id={{ archive.id }}" class="hw_link">{{ archive.title }}</a></td>
                         <td>{{ archive.teacher }}</td>
                         <td>{{ archive.date_due }}</td>
                     </tr>

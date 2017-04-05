@@ -42,3 +42,24 @@ body {
 .button_link:focus {
     outline: none;
 }
+
+
+/* hw link */
+.hw_link {
+    transition: color .4s;
+    color: #265C83;
+    text-decoration: underline;
+}
+
+.hw_link:link, .hw_link:visited {
+    color: #265C83
+}
+
+.hw_link:hover {
+    color: #42AB4B;
+}
+
+.hw_link:active {
+    transition: color .3s;
+    color: #007BE6;
+}
