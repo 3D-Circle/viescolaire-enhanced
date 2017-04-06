@@ -4,9 +4,15 @@ from bs4 import BeautifulSoup
 
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0'}
 ARCHIVE_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/'
+WIC_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_archive_seance.php?'
 
 
 class InvalidCredentials(Exception):
+    def __init__(self, *args):
+        super().__init__(*args)
+
+
+class PageNotFound(Exception):
     def __init__(self, *args):
         super().__init__(*args)
 
@@ -24,83 +30,71 @@ class Homework(object):
             raise InvalidCredentials("Login error - invalid credentials.")
 
         # homework dictionary
-        self.data_dict = {}
-        self.subjects = {str(x.text): x['value'].split('?')[-1] for x in self.data.find(id="devMatChoice").find_all('option')}
+        self.hw_list = []
+        self.subjects = {
+            str(x.text): x['value'].split('?')[-1] for x in self.data.find(id="devMatChoice").find_all('option')
+        }  # list of subjects is found in the option selector #devMatChoice
 
         # Get homework titles and ids
-        for div in self.data.findAll(class_='left'):
-            for a in div.findAll('a'):
-                title = a.findAll('strong')
-                if title:
-                    a = str(a)
-                    _id = a.split('?')[1].replace('">', '')
-                    self.data_dict[_id] = {}
+        for row in self.data.findAll('tr'):
+            if row.get('class'):
+                if row.get('class')[0] in ['liste_couleur1', 'liste_couleur2']:
+                    for a in row.findAll('a'):
+                        title = a.findAll('strong')
+                        if title:
+                            _id = int(a['href'].split('=')[-1])
+                            self.hw_list.append(_id)
 
     # Get homework details
-    def get_content(self, _id):  # format: _id = "id=1234"
-        href = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_vw_devoir.php?'
-        info = self.session.get(href + _id, headers=HEADERS)
-        details = BeautifulSoup(info.content, 'html.parser')
-        content = details.text.replace('\t', '').replace('\r', '').replace('\xa0', ' ')
-        content1, content2 = content.split("Temps moyen estimé")
-        content1 = [_ for _ in content1.split('\n') if _]
-        content2 = content2.split('\n')
-        content2 = [content2[_] for _ in range(len(content2)) if content2[_] or content2[_ - 1]]
-        content = content1 + ['Temps'] + content2
+    def get_content(self, _id):  # enough with weird formats ! just keep it as an int.
+        """Get all info from the _id"""
+        assert type(_id) is int  # Yes we even check !
+        href = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_vw_devoir.php?id='
+        info = self.session.get(f'{href}{_id}', headers=HEADERS)
+        soup = BeautifulSoup(info.content, 'html.parser')
+        content_table = soup.find(class_='infotbl')
+        date_due, days_left = self.clean(
+            content_table.find_all('tr')[1].find_all('td')[1].text, True
+        ).replace(')', '').split('(')  # original format: 'dd/mm/yyy (xxx jours)'
+
+        if '1970' in date_due:
+            raise PageNotFound
+
+        content = {
+            'id': _id,
+            'subject': soup.find(class_='page_title').text.lower().capitalize(),
+            'date_class': content_table.find_all('tr')[0].find_all('td')[1].text,
+            'date_due': date_due,
+            'days_left': int(days_left.split(' ')[0]),
+            'time_est': content_table.find_all('tr')[2].find_all('td')[1].text,
+            'title': soup.find(class_='dev_title').text,
+            'description': self.clean(content_table.find(class_='infdesc').text).strip('\n')
+        }
+        file_links = [i.find('a') for i in content_table.find_all(class_='infattach')]
+        for file_link in file_links:
+            content['files'] = [
+                {self.clean(file_link.text, True): file_link['href']}
+            ]
+        if len(content['subject']) <= 3:
+            content['subject'] = content['subject'].upper()
         return content
 
-    def get_content_sorted(self, _id):
-        content = self.get_content(_id)
-        # 0 - 11: index
-        # 12: Subject
-        # 13: Title
-        # 14, 15: Class date, value
-        # 16, 17: Due date, value: MM/DD/YYYY(X jours)
-        # 18, 19: Time estimated, value
-        # 20 - end: description
-        if len(content) > 10:
-            if content[12] != "Date du cours:":
-                title = content[13]
-                subject = content[12]
-                date_class = content[15]
-                date_due = content[17].split('(')[0]
-                time_est = content[19]
-                days_left = content[17].split('(')[1].replace(' jours)', '')
-                description = [content[i] for i in range(20, len(content) - 1)]
-                description = '<br />'.join(description)
-                # Store content inside data dict
-                if _id not in self.data_dict:
-                    # necessary for fetching ids not in our hw
-                    self.data_dict[_id] = {}
-                stored = self.data_dict[_id]  # index
-                stored['id'] = int(_id.split('\n')[0][3:])
-                stored['title'] = title  # 0
-                # `if` necessary for MPS, SES, etc
-                stored['subject'] = subject.lower().capitalize() if len(subject) > 3 else subject.upper()  # 1
-                stored['date_class'] = date_class  # 2
-                stored['date_due'] = date_due  # 3
-                stored['days_left'] = days_left  # 4
-                stored['time_est'] = time_est if time_est != '-' else None # 5
-                stored['description'] = description  # 6
-                return stored
-
     def get_all(self):
-        for hw in self.data_dict.keys():
-            self.get_content_sorted(hw)
-        return sorted(self.data_dict.items(), key=lambda x: (int(x[1]['days_left']), x[1]['subject']))
+        """Get all hw due and sort it"""
+        all_hw_dicts = [self.get_content(_id) for _id in self.hw_list]
+        return sorted(all_hw_dicts, key=lambda x: x['days_left'])
 
     def get_hw_by_id(self, _id):
-        return self.get_content_sorted('id={}'.format(_id))
+        return self.get_content(_id)
 
     def get_wic_by_id(self, _id):
         """Get work in class from id (wic = work in class)"""
-        wic_root_url = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_vw_seance.php?ret=archive&id='
-        soup = BeautifulSoup(self.session.get(f'{wic_root_url}{_id}').content, 'html.parser')
+        soup = BeautifulSoup(self.session.get(f'{WIC_ROOT}{_id}').content, 'html.parser')
         return {
             'subject': soup.find_all('h4')[0].text,
             'title': soup.find_all('h4')[1].text,
             'date_class': soup.find_all('tr')[0].find_all('td')[1].text,
-            'description': soup.find_all('tr')[1].find_all('td')[1].text.replace('\t', '').replace('\r', '')
+            'description': self.clean(soup.find_all('tr')[1].find_all('td')[1].text)
         }
 
     def get_hw_archives(self, link):
@@ -123,20 +117,20 @@ class Homework(object):
                     temp_dict['days_left'] = row.find_all('td')[4].text.split(' ')[0]
                     for key, values in temp_dict.items():
                         if type(values) is str:
-                            temp_dict[key] = values.replace('\t', '').replace('\r', '').replace('\n', '')
+                            temp_dict[key] = self.clean(values, True)
             if temp_dict:  # check if empty
                 hw_archive.append(temp_dict)
         return subject, hw_archive
 
     def get_wic(self, link):
-        """Get work done in blass from link"""
-        raw_list = self.session.get(
-            f'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_archive_seance.php?{link}',
-            headers=HEADERS
-        )
+        """Get list of work done in class from link"""
+        raw_list = self.session.get(f'{WIC_ROOT}{link}', headers=HEADERS)
         soup = BeautifulSoup(raw_list.content, 'html.parser')
-
         wic_list = []
+
+        if soup.find_all(class_='warning_err'):
+            raise PageNotFound
+
         subject = soup.find('h4').text.split('-')[-1].strip()
         for row in soup.find_all('tr'):
             if len(row.find_all('td')) == 4:
@@ -147,7 +141,19 @@ class Homework(object):
                     'teacher': row.find_all('td')[2].text
                 }
                 wic_list.append({
-                    key: value.replace('\t', '').replace('\r', '').replace('\n', '') for key, value in temp_dict.items()
+                    key: self.clean(value).replace('\n', '') for key, value in temp_dict.items()
                 })
-
         return subject, wic_list
+
+    @staticmethod
+    def clean(s, newlines=False):
+        """Used to clean strings"""
+        half_cleaned = s.replace('\t', '').replace('\r', '')
+        if newlines:
+            return half_cleaned.replace('\n', '')
+        else:
+            return half_cleaned
+
+if __name__ == '__main__':
+    o = Homework({'login': 't.takla19@ejm.org', 'mdp': 'EABJTT'})
+    print(o.get_hw_by_id(999999999999999))

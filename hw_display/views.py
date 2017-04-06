@@ -1,10 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .vs_helper_functions import Homework, InvalidCredentials
-
-
-LOGIN_URL = 'https://viescolaire.ecolejeanninemanuel.net/auth.php'
+from .vs_helper_functions import Homework, InvalidCredentials, PageNotFound
 
 
 def homepage(request):
@@ -48,7 +45,8 @@ def show_hw_list(request):
         except InvalidCredentials:
             return redirect('login_form', invalid=True)
         else:
-            hw_dict = [i[1] for i in hw.get_all()]
+            hw_dict = hw.get_all()
+            print(hw_dict)
             return render(
                 request, 'hw_display/hw_list.html',
                 {'hw_dict': hw_dict, 'subjects': hw.subjects}
@@ -62,11 +60,13 @@ def get_hw_by_id(request, _id):
     password = request.session.get('password')
     if username and password:
         obj = Homework(payload={'login': username, 'mdp': password})
-        hw = obj.get_hw_by_id(_id)
-        if hw:  # check whether it exists
-            return render(request, 'hw_display/individual_hw.html', {'hw_details': hw})
+        try:
+            hw = obj.get_hw_by_id(int(_id))
+        except PageNotFound:
+            return render(request, 'hw_display/404.html')
         else:
-            return render(request, 'hw_display/hw_not_found.html', {'id': _id})
+            return render(request, 'hw_display/individual_hw.html', {'hw_details': hw})
+
     else:
         return redirect('login_form', unauthorized=True)
 
@@ -80,10 +80,9 @@ def get_wic_by_id(request, _id):
         if hw:  # check whether it exists
             return render(request, 'hw_display/individual_wic.html', {'wic': hw})
         else:
-            return render(request, 'hw_display/hw_not_found.html', {'id': _id})
+            return render(request, 'hw_display/404.html', {'id': _id})
     else:
         return redirect('login_form', unauthorized=True)
-
 
 
 def get_hw_archive(request):
@@ -111,7 +110,14 @@ def get_wic(request):
     )
     if username and password:
         obj = Homework(payload={'login': username, 'mdp': password})
-        subject, wic_list = obj.get_wic(link)
-        return render(request, 'hw_display/wic_list.html', {'wic_list': wic_list, 'subject': subject})
+        try:
+            subject, wic_list = obj.get_wic(link)
+        except PageNotFound:
+            return render(request, 'hw_display/404.html')
+        else:
+            return render(request, 'hw_display/wic_list.html', {'wic_list': wic_list, 'subject': subject})
     else:
         return redirect('login_form', unauthorized=True)
+
+if __name__ == '__main__':
+    o = Homework(payload={'login': 't/Ta'})
