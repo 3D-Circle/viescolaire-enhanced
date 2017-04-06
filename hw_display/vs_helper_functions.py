@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0'}
 ARCHIVE_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/'
 WIC_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_archive_seance.php?'
+INDIVIDUAL_WIC_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_vw_seance.php?ret=archive&id='
 
 
 class InvalidCredentials(Exception):
@@ -89,7 +90,7 @@ class Homework(object):
 
     def get_wic_by_id(self, _id):
         """Get work in class from id (wic = work in class)"""
-        soup = BeautifulSoup(self.session.get(f'{WIC_ROOT}{_id}').content, 'html.parser')
+        soup = BeautifulSoup(self.session.get(f'{INDIVIDUAL_WIC_ROOT}{_id}').content, 'html.parser')
         return {
             'subject': soup.find_all('h4')[0].text,
             'title': soup.find_all('h4')[1].text,
