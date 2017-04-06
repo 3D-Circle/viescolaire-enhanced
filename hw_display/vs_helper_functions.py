@@ -6,6 +6,7 @@ HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/201
 ARCHIVE_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/'
 WIC_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_archive_seance.php?'
 INDIVIDUAL_WIC_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_vw_seance.php?ret=archive&id='
+UPlOAD_ROOT = ''
 
 
 class InvalidCredentials(Exception):
@@ -64,18 +65,20 @@ class Homework(object):
         content = {
             'id': _id,
             'subject': soup.find(class_='page_title').text.lower().capitalize(),
-            'date_class': content_table.find_all('tr')[0].find_all('td')[1].text,
-            'date_due': date_due,
+            'date_class': content_table.find_all('tr')[0].find_all('td')[1].text, 'date_due': date_due,
             'days_left': int(days_left.split(' ')[0]),
             'time_est': content_table.find_all('tr')[2].find_all('td')[1].text,
             'title': soup.find(class_='dev_title').text,
-            'description': self.clean(content_table.find(class_='infdesc').text).strip('\n')
+            'description': self.clean(content_table.find(class_='infdesc').text).strip('\n'),
+            'files': []
         }
-        file_links = [i.find('a') for i in content_table.find_all(class_='infattach')]
+        file_links = [
+            i.find('a') for i in content_table.find_all(class_='infattach') if self.clean(i.find('a').text, True)
+        ]
         for file_link in file_links:
-            content['files'] = [
-                {self.clean(file_link.text, True): file_link['href']}
-            ]
+            content['files'].append({
+                self.clean(file_link.text, True): f"{ARCHIVE_ROOT}{file_link['href']}"
+            })
         if len(content['subject']) <= 3:
             content['subject'] = content['subject'].upper()
         return content

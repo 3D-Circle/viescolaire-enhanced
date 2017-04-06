@@ -47,7 +47,20 @@
         </div>
         <div class="main_wrapper individual_hw_description">
             {{ hw_details.description|safe|urlize }}
+
+            {% if hw_details.files %}
+                <br><br><br><br><hr>
+                {% for file in hw_details.files %}
+                    {% for file_title, file_link in file.items %}
+                        <div style="text-align:center;">
+                            <img src="{% static 'img/download.png' %}" width='32' height='32' alt="Download">
+                            <a href="{{ file_link }}">{{ file_title }}</a>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
+
     </div>
 
     <button class="button individual_hw_back_button" onclick="go_back()">
