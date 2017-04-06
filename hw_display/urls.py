@@ -13,5 +13,7 @@ urlpatterns = [
     url(r'^devoirs/', views.show_hw_list, name='hw_list'),
     url(r'devoir_id=([0-9]+)', views.get_hw_by_id, name='individual_hw'),
     # archives and work done in class
-    url(r'^archives', views.get_hw_archive, name='hw_archive')
+    url(r'^archives', views.get_hw_archive, name='hw_archive'),
+    url(r'^inclass$', views.get_wic, name='work_in_class'),
+    url(r'^inclass_id=([0-9]+)', views.get_wic_by_id, name='individual_wic')
 ]

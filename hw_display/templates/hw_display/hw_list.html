@@ -9,61 +9,65 @@
     <script>
         // takes value from subject choice and sends to corresponding page
         function load_archive() {
-            var subject = $('select#subject_select').val();
-            window.location.href = '/archives?' + subject;
+            var subject_parameters = $('select#subject_select').val();
+            window.location.href = '/archives?' + subject_parameters;
+        }
+        function load_work_in_class() {
+            var subject_parameters = $('select#subject_select').val();
+            window.location.href = '/inclass?' + subject_parameters;
         }
 
     </script>
 {% endblock %}
 
 {% block content %}
-    <div id="title" class="title_box">
-        Homework!
-    </div>
-
-    <div id="main_wrapper">
-        <div id="control_bar">
-            {% if user.is_authenticated %}
-                Howdy, {{ request.user.username }}.
-            {% endif %}
-            <button class="top_control_button button">
-                Settings
-            </button>
-            <a href="/logout/" class="button_link">
-                <button class="top_control_button button">
-                    Logout
-                </button>
-            </a>
+    <div class="bg_wrapper">
+        <div class="main_wrapper title_box">
+            Homework!
         </div>
 
-        <table>
-        <tbody>
-            {% for hw in hw_dict %}
-                <tr>
-                    <td style="text-align: center;">
-                        {{ hw.subject }}
-                    </td>
-                    <td>
-                        <a href="/devoir_id={{ hw.id }}" class="hw_link">
-                            {{ hw.title }}
-                        </a>
-                    </td>
-                    <td>
-                        {{ hw.days_left }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-        </table>
-    </div>
+        <div class="main_wrapper">
+            <div id="control_bar">
+                Howdy, {{ request.user.username }}.
+                <button class="top_control_button button">
+                    Settings
+                </button>
+                <a href="/logout/" class="button_link">
+                    <button class="top_control_button button">
+                        Logout
+                    </button>
+                </a>
+            </div>
 
-    <div id="bottom_wrapper" class="main_wrapper">
-        <select name="subject_select" id="subject_select">
-            {% for subject, link in subjects.items %}
-                <option value="{{ link }}">{{ subject }}</option>
-            {% endfor %}
-        </select>
-        <button class="button" onclick="load_archive()">Homework Archive</button>
-        <button class="button" onclick="load_work_in_class()">Work done in class</button>
+            <table class="hw_table">
+            <tbody>
+                {% for hw in hw_dict %}
+                    <tr>
+                        <td style="text-align: center;">
+                            {{ hw.subject }}
+                        </td>
+                        <td>
+                            <a href="/devoir_id={{ hw.id }}">
+                                {{ hw.title }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ hw.days_left }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+
+        <div id="bottom_wrapper" class="main_wrapper">
+            <select name="subject_select" id="subject_select">
+                {% for subject, link in subjects.items %}
+                    <option value="{{ link }}">{{ subject }}</option>
+                {% endfor %}
+            </select>
+            <button class="button" onclick="load_archive()">Homework Archive</button>
+            <button class="button" onclick="load_work_in_class()">Work done in class</button>
+        </div>
     </div>
 {% endblock %}

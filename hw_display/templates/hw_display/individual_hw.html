@@ -8,16 +8,16 @@
 {% endblock %}
 
 {% block content %}
-    <div class="background_wrapper">
-        <div id="subject" class="hw_element">
+    <div class="bg_wrapper">
+        <div class="main_wrapper individual_hw_subject">
             <i>{{ hw_details.subject }}</i>
         </div>
 
-        <div id="title" class="hw_element">
+        <div class="main_wrapper individual_hw_title">
             <b>{{hw_details.title }}</b>
         </div>
 
-        <div id="additional_info" class="hw_element">
+        <div id="additional_info" class="main_wrapper">
             <table>
             <tbody>
                 <tr>
@@ -45,14 +45,13 @@
             </tbody>
             </table>
         </div>
-        <div id="details" class="hw_element">
+        <div class="main_wrapper individual_hw_description">
             {{ hw_details.description|safe|urlize }}
         </div>
     </div>
 
-    <a href="/devoirs/" class="button_link">
-        <button id="back_button" class="button">
-            Go back
-        </button>
-    </a>
+    <button class="button individual_hw_back_button" onclick="go_back()">
+        Go back
+    </button>
+
 {% endblock %}

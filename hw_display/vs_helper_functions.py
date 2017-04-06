@@ -26,7 +26,7 @@ class Homework(object):
         # homework dictionary
         self.data_dict = {}
         self.subjects = {str(x.text): x['value'].split('?')[-1] for x in self.data.find(id="devMatChoice").find_all('option')}
-        print(self.subjects)
+
         # Get homework titles and ids
         for div in self.data.findAll(class_='left'):
             for a in div.findAll('a'):
@@ -92,7 +92,19 @@ class Homework(object):
     def get_hw_by_id(self, _id):
         return self.get_content_sorted('id={}'.format(_id))
 
+    def get_wic_by_id(self, _id):
+        """Get work in class from id (wic = work in class)"""
+        wic_root_url = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_vw_seance.php?ret=archive&id='
+        soup = BeautifulSoup(self.session.get(f'{wic_root_url}{_id}').content, 'html.parser')
+        return {
+            'subject': soup.find_all('h4')[0].text,
+            'title': soup.find_all('h4')[1].text,
+            'date_class': soup.find_all('tr')[0].find_all('td')[1].text,
+            'description': soup.find_all('tr')[1].find_all('td')[1].text.replace('\t', '').replace('\r', '')
+        }
+
     def get_hw_archives(self, link):
+        """Get list of archived hw from a link (which gives the required subject info)"""
         raw_list = self.session.get(f'{ARCHIVE_ROOT}{link}', headers=HEADERS)
         soup = BeautifulSoup(raw_list.content, 'html.parser')
         rows = soup.find_all(class_='liste')[0].find_all('tr')
@@ -115,3 +127,27 @@ class Homework(object):
             if temp_dict:  # check if empty
                 hw_archive.append(temp_dict)
         return subject, hw_archive
+
+    def get_wic(self, link):
+        """Get work done in blass from link"""
+        raw_list = self.session.get(
+            f'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_archive_seance.php?{link}',
+            headers=HEADERS
+        )
+        soup = BeautifulSoup(raw_list.content, 'html.parser')
+
+        wic_list = []
+        subject = soup.find('h4').text.split('-')[-1].strip()
+        for row in soup.find_all('tr'):
+            if len(row.find_all('td')) == 4:
+                temp_dict = {
+                    'date_class': row.find_all('td')[0].text,
+                    'title': row.find_all('td')[1].text,
+                    'id': row.find_all('a')[0]['href'].split('=')[-1],
+                    'teacher': row.find_all('td')[2].text
+                }
+                wic_list.append({
+                    key: value.replace('\t', '').replace('\r', '').replace('\n', '') for key, value in temp_dict.items()
+                })
+
+        return subject, wic_list

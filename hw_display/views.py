@@ -71,6 +71,21 @@ def get_hw_by_id(request, _id):
         return redirect('login_form', unauthorized=True)
 
 
+def get_wic_by_id(request, _id):
+    username = request.session.get('username')
+    password = request.session.get('password')
+    if username and password:
+        obj = Homework(payload={'login': username, 'mdp': password})
+        hw = obj.get_wic_by_id(_id)
+        if hw:  # check whether it exists
+            return render(request, 'hw_display/individual_wic.html', {'wic': hw})
+        else:
+            return render(request, 'hw_display/hw_not_found.html', {'id': _id})
+    else:
+        return redirect('login_form', unauthorized=True)
+
+
+
 def get_hw_archive(request):
     username = request.session.get('username')
     password = request.session.get('password')
@@ -81,5 +96,22 @@ def get_hw_archive(request):
         obj = Homework(payload={'login': username, 'mdp': password})
         subject, archives = obj.get_hw_archives(f'e_archive_devoir.php?m={m}&g={g}&eleve={eleve}')
         return render(request, 'hw_display/hw_archive.html', {'subject': subject, 'archives': archives})
+    else:
+        return redirect('login_form', unauthorized=True)
+
+
+def get_wic(request):
+    username = request.session.get('username')
+    password = request.session.get('password')
+    link = 'g={}&gtype={}&m={}&eleve={}'.format(
+        request.GET.get('g'),
+        request.GET.get('gtype', 'G'),
+        request.GET.get('m'),
+        request.GET.get('eleve')
+    )
+    if username and password:
+        obj = Homework(payload={'login': username, 'mdp': password})
+        subject, wic_list = obj.get_wic(link)
+        return render(request, 'hw_display/wic_list.html', {'wic_list': wic_list, 'subject': subject})
     else:
         return redirect('login_form', unauthorized=True)

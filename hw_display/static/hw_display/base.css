@@ -19,6 +19,7 @@ body {
     background: rgba(177, 195, 200, 0.5);
     font-size: 48px;
 }
+
 /* buttons */
 .button {
     border: none;
@@ -34,7 +35,6 @@ body {
     background: rgba(255, 111, 55, .8);
 }
 
-
 .button_link {
     text-decoration: none;
 }
@@ -43,23 +43,71 @@ body {
     outline: none;
 }
 
+/* Hw table template */
 
-/* hw link */
-.hw_link {
+.hw_table {
+    margin: auto;
+    border-collapse: collapse;
+}
+
+.hw_table td {
+   border: 1px solid rgba(148, 148, 148, 1);
+   padding: 5px 10px 5px 10px;
+}
+
+/* button to go back before the table */
+
+.hw_list_back_button {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Homework link */
+
+.hw_link,
+.hw_table a {
     transition: color .4s;
     color: #265C83;
     text-decoration: underline;
 }
 
-.hw_link:link, .hw_link:visited {
+.hw_link:link, .hw_link:visited,
+.hw_table a:link, .hw_table a:visited {
     color: #265C83
 }
 
-.hw_link:hover {
+.hw_link:hover, .hw_table a:hover {
     color: #42AB4B;
 }
 
-.hw_link:active {
+.hw_link:active, .hw_table a:active {
     transition: color .3s;
     color: #007BE6;
 }
+
+/* individual hw and wic */
+
+.individual_hw_subject {
+    font-size: 20px;
+    text-align: center;
+}
+
+.individual_hw_title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.individual_hw_back_button {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 30px;
+}
+
+.individual_hw_description {
+    padding: 40px;
+}
+

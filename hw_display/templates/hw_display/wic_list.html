@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Work done in class {% endblock %}
+
+{% block content %}
+    <div class="bg_wrapper">
+        <div class="main_wrapper title_box">
+            {{ subject }}  - Work done in class
+        </div>
+        <div class="main_wrapper">
+            <button class="button hw_list_back_button" onclick="go_home()">Go back</button>
+            <table class="hw_table">
+                <tbody>
+                {% for wic in wic_list %}
+                    <tr>
+                        <td>{{ wic.date_class }}</td>
+                        <td><a href="/inclass_id={{ wic.id }}">{{ wic.title }}</a></td>
+                        <td>{{ wic.teacher }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+{% endblock %}

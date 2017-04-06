@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Work done in class {% endblock %}
+
+{% block content %}
+    <div class="bg_wrapper">
+        <div id="subject" class="main_wrapper individual_hw_subject">
+            <i>Work done in class - {{ wic.subject }}   </i>
+        </div>
+        <div id="title" class="main_wrapper individual_hw_title">
+            <b>{{ wic.title }}</b>
+        </div>
+        <div class="main_wrapper" style="text-align:center;">
+            <i>Class date: {{ wic.date_class }}</i>
+        </div>
+
+        <div class="main_wrapper individual_hw_description">
+            {{ wic.description|safe|urlize }}
+        </div>
+
+        <button onclick="go_back()" class="button individual_hw_back_button">
+            Go back
+        </button>
+    </div>
+{% endblock %}

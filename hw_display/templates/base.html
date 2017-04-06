@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        function go_back() {
+            window.location.href = document.referrer;
+        }
+        function go_home() {
+            window.location.href = '/devoirs/';
+        }
+    </script>
     {% load static %}
     <link rel="stylesheet" href="{% static 'hw_display/base.css' %}">
     <title> {% block title %}{% endblock %} </title>

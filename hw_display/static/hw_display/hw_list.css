@@ -11,7 +11,7 @@ Buttons    | rgba(255, 195, 102, 0.81)
 }
 
 #control_bar {
-    padding: 10px 10px 10px 10px;
+    padding: 10px 10px 20px 10px;
     text-align: center;
 } /* buttons are in base.css */
 
@@ -22,21 +22,11 @@ Buttons    | rgba(255, 195, 102, 0.81)
     padding: 0 50px 50px 50px;
 }
 
-table {
-    margin: auto;
-    /*text-align: center; maybe we'll put it back ?*/
-    border-collapse: collapse;
-}
-
-td {
-   border: 1px solid rgba(148, 148, 148, 1);
-   padding: 5px 10px 5px 10px;
-}
 
 /* footer */
 #bottom_wrapper {
     text-align: center;
-    margin: 20px 20% 2px 20%;
+    margin: 20px 0 2px 0;
 }
 
 #bottom_wrapper * {
