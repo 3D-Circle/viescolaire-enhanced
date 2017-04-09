@@ -69,7 +69,9 @@ class Homework(object):
             'days_left': int(days_left.split(' ')[0]),
             'time_est': content_table.find_all('tr')[2].find_all('td')[1].text,
             'title': soup.find(class_='dev_title').text,
-            'description': self.clean(content_table.find(class_='infdesc').text).strip('\n'),
+            'description': self.clean(
+                content_table.find(class_='infdesc').text
+            ).strip('\n').replace('\n', '<br>'),
             'files': []
         }
         file_links = [
