@@ -39,22 +39,36 @@
                 </a>
             </div>
 
-            <table class="hw_table">
+            <table class="hw_table main_table">
             <tbody>
-                {% for hw in hw_dict %}
-                    <tr>
-                        <td style="text-align: center;">
-                            {{ hw.subject }}
-                        </td>
-                        <td>
-                            <a href="/devoir_id={{ hw.id }}">
-                                {{ hw.title }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ hw.days_left }}
-                        </td>
-                    </tr>
+                {% for week_num, week_content in hw_dict.items %}
+                    {% for day_num, day_content in week_content.items %}
+                        {% for hw in day_content %}
+                            <tr><td class="small_coloured_separator" colspan="3"></td></tr>
+                            <tr class="hw_row">
+                                <td style="text-align: center;">
+                                    {{ hw.subject }}
+                                </td>
+                                <td width="80%">
+                                    <a href="/devoir_id={{ hw.id }}">
+                                        {{ hw.title }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {{ hw.days_left }}
+                                </td>
+                            </tr>
+                            <tr><td class="small_coloured_separator" colspan="3"></td></tr>
+                        {% endfor %}
+
+                        {% if forloop.counter != week_content|length %}
+                            <tr><td class="day_separator"></td></tr>
+                        {% endif %}
+
+                    {% endfor %}
+                    <tr><td colspan="3" class="small_separator"></td></tr>
+                    <tr><td colspan="3" class="weekend_separator">WEEKEND</td></tr>
+                    <tr><td colspan="3" class="small_separator"></td></tr>
                 {% endfor %}
             </tbody>
             </table>

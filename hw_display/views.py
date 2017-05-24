@@ -46,7 +46,6 @@ def show_hw_list(request):
             return redirect('login_form', invalid=True)
         else:
             hw_dict = hw.get_all()
-            print(hw_dict)
             return render(
                 request, 'hw_display/hw_list.html',
                 {'hw_dict': hw_dict, 'subjects': hw.subjects}

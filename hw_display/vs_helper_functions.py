@@ -1,4 +1,6 @@
+import collections
 import requests
+from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
 
@@ -88,7 +90,15 @@ class Homework(object):
     def get_all(self):
         """Get all hw due and sort it"""
         all_hw_dicts = [self.get_content(_id) for _id in self.hw_list]
-        return sorted(all_hw_dicts, key=lambda x: x['days_left'])
+        # nested defaultdict
+        # defaultdict -> defaultdict -> list
+        divided_dict = collections.defaultdict(lambda: collections.defaultdict(list))
+        for single_hw in all_hw_dicts:
+            day_due = datetime.now() + timedelta(days=single_hw['days_left'])
+            week_number = day_due.isocalendar()[1]
+            day_number = (day_due - datetime(1970, 1, 1)).days
+            divided_dict[week_number][day_number].append(single_hw)
+        return self.default_to_regular(divided_dict)  # sorted(all_hw_dicts, key=lambda x: x['days_left'])
 
     def get_hw_by_id(self, _id):
         return self.get_content(_id)
@@ -153,13 +163,19 @@ class Homework(object):
 
     @staticmethod
     def clean(s, newlines=False):
-        """Used to clean strings"""
+        """Used to clean strings from scraping bouillie"""
         half_cleaned = s.replace('\t', '').replace('\r', '')
         if newlines:
             return half_cleaned.replace('\n', '')
         else:
             return half_cleaned
 
+    def default_to_regular(self, d):
+        """convert defaultdict to normal dict"""
+        if isinstance(d, collections.defaultdict):
+            d = {k: self.default_to_regular(v) for k, v in d.items()}
+        return d
+
 if __name__ == '__main__':
-    o = Homework({'login': 't.takla19@ejm.org', 'mdp': 'EABJTT'})
+    o = Homework({'login': 't.takla19@ejm.org', 'mdp': ''})
     print(o.get_hw_by_id(999999999999999))

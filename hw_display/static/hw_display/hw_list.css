@@ -22,6 +22,36 @@ Buttons    | rgba(255, 195, 102, 0.81)
     padding: 0 50px 50px 50px;
 }
 
+/* table separators */
+.day_separator {
+    height: 10px;
+}
+
+.weekend_separator {
+    height: 30px;
+    background: #b1b0af;
+    width: 100%;
+    text-align: center;
+    -webkit-box-shadow: 10px 7px 43px -3px rgba(0,0,0,0.22);
+    -moz-box-shadow: 10px 7px 43px -3px rgba(0,0,0,0.22);
+    box-shadow: 10px 7px 43px -3px rgba(0,0,0,0.22);
+}
+
+.small_separator {
+    height: 3px;
+    width: 100%;
+}
+
+.small_coloured_separator {
+    height: 0.5px;
+    width: 100%;
+    background: #C0D1F0;
+}
+
+/* group styling */
+.hw_row {
+    background: #C0D1F0;
+}
 
 /* footer */
 #bottom_wrapper {
