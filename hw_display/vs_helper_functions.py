@@ -106,11 +106,14 @@ class Homework(object):
     def get_wic_by_id(self, _id):
         """Get work in class from id (wic = work in class)"""
         soup = BeautifulSoup(self.session.get(f'{INDIVIDUAL_WIC_ROOT}{_id}').content, 'html.parser')
+        print(self.clean(soup.find_all('tr')[1].find_all('td')[1].text))
         return {
             'subject': soup.find_all('h4')[0].text,
             'title': soup.find_all('h4')[1].text,
             'date_class': soup.find_all('tr')[0].find_all('td')[1].text,
-            'description': self.clean(soup.find_all('tr')[1].find_all('td')[1].text)
+            'description': self.clean(
+                soup.find_all('tr')[1].find_all('td')[1].text
+            ).replace('\n', '<br>')
         }
 
     def get_hw_archives(self, link):
@@ -161,6 +164,16 @@ class Homework(object):
                 })
         return subject, wic_list
 
+    def change_password(self, new_password):
+        self.student_id = int(
+            self.data.find(id="statut").find('a')['href'].split('=')[-1]
+        )  # needed for changing password
+        self.session.post(f'{ARCHIVE_ROOT}user.php', data={
+            'id': self.student_id,
+            'mdp1': new_password,
+            'mdp2': new_password
+        })
+
     @staticmethod
     def clean(s, newlines=False):
         """Used to clean strings from scraping bouillie"""
@@ -177,5 +190,5 @@ class Homework(object):
         return d
 
 if __name__ == '__main__':
-    o = Homework({'login': 't.takla19@ejm.org', 'mdp': ''})
-    print(o.get_hw_by_id(999999999999999))
+    o = Homework({'login': 't.takla19@ejm.org', 'mdp': 'EABJTT'})
+    o.change_password('EABJMM')

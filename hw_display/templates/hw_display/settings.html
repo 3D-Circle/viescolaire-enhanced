@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %} Settings {% endblock %}
+
+{% block extra_head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'hw_display/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'hw_display/settings.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="bg_wrapper">
+        <div class="main_wrapper title_box">
+            Settings
+        </div>
+
+        <div class="main_wrapper">
+            <div style="text-align: center;">
+                <button class="button" onclick="go_home()">
+                    Go back
+                </button>
+            </div>
+            <hr>
+            <h3>Change Password</h3>
+            <form action="{% url 'settings' %}" method="post">
+                {% csrf_token %}
+                <table><tbody>
+                {% if password_change_success %}
+                    <tr>
+                        <td colspan="2" class="success">
+                            Password change success
+                        </td>
+                    </tr>
+                {% elif invalid_password %}
+                    <tr>
+                        <td colspan="2" class="failure">
+                            Error: old password is incorrect
+                        </td>
+                    </tr>
+                {% elif incorrect_reenter %}
+                    <tr>
+                        <td colspan="2" class="failure">
+                            Error: new password was reentered incorrectly
+                        </td>
+                    </tr>
+                {% endif %}
+                <tr>
+                    <td>Old password</td>
+                    <td>
+                        <input type="password" name="old_password" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>New password</td>
+                    <td>
+                        <input type="password" name="password1" required>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Repeat new password</td>
+                    <td>
+                        <input type="password" name="password2" required>
+                    </td>
+                </tr>
+                <tr><td colspan="2">
+                    <input type="submit" value="Change Password">
+                </td></tr>
+                </tbody></table>
+            </form>
+
+            <hr>
+
+            <!-- More stuff to come -->
+        </div>
+    </div>
+{% endblock %}

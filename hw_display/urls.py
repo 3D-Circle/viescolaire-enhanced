@@ -15,5 +15,7 @@ urlpatterns = [
     # archives and work done in class
     url(r'^archives', views.get_hw_archive, name='hw_archive'),
     url(r'^inclass$', views.get_wic, name='work_in_class'),
-    url(r'^inclass_id=([0-9]+)', views.get_wic_by_id, name='individual_wic')
+    url(r'^inclass_id=([0-9]+)', views.get_wic_by_id, name='individual_wic'),
+    # other
+    url(r'^settings', views.settings, name='settings')
 ]

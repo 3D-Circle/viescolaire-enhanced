@@ -1,0 +1,46 @@
+td {
+    text-align: right;
+}
+
+input[type='submit'] {
+    width: 100%;
+}
+
+input[type='password'] {
+    padding: 5px;
+    margin: 3px;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, #DEE3EE, #8c8b8b, #DEE3EE);
+  background-image: -moz-linear-gradient(left, #DEE3EE, #8c8b8b, #DEE3EE);
+  background-image: -ms-linear-gradient(left, #DEE3EE, #8c8b8b, #DEE3EE);
+  background-image: -o-linear-gradient(left, #DEE3EE, #8c8b8b, #DEE3EE);
+}
+
+h3 {
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    border-spacing: 4px;
+}
+
+td.success {
+    background: #CFFFCE;
+    border: 1px solid #06FF00;
+    text-align: center;
+    height: 30px;
+}
+
+td.failure {
+    background: #FEC5C5;
+    border: 1px solid #FF0000;
+    text-align: center;
+    height: 30px;
+    font-size: 14px;
+}

@@ -29,9 +29,11 @@
         <div class="main_wrapper">
             <div id="control_bar">
                 Howdy, {{ request.user.username }}.
-                <button class="top_control_button button">
-                    Settings
-                </button>
+                <a href="/settings" class="button_link">
+                    <button class="top_control_button button">
+                        Settings
+                    </button>
+                </a>
                 <a href="/logout/" class="button_link">
                     <button class="top_control_button button">
                         Logout
@@ -58,7 +60,9 @@
                                     {{ hw.days_left }}
                                 </td>
                             </tr>
-                            <tr><td class="small_coloured_separator" colspan="3"></td></tr>
+                            {% if forloop.counter == day_content|length %}
+                                <tr><td class="small_coloured_separator" colspan="3"></td></tr>
+                            {% endif %}
                         {% endfor %}
 
                         {% if forloop.counter != week_content|length %}

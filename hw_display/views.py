@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.core.exceptions import ObjectDoesNotExist
 from .vs_helper_functions import Homework, InvalidCredentials, PageNotFound
 
 
@@ -22,6 +23,14 @@ def vs_login(request):
         return login_render(request, invalid=True)
     user = authenticate(username=username, password=password)
     if user is None:
+        try:
+            user_with_this_username = User.objects.get(username__exact=username)
+            user_with_this_username.delete()
+        except ObjectDoesNotExist:
+            # user changed password
+            # simpler just to remove the user and create new one
+            # TODO actually change the password instead of deleting the User
+            pass
         # first time user
         user = User.objects.create_user(username=username, password=password)
     login(request, user)
@@ -118,5 +127,27 @@ def get_wic(request):
     else:
         return redirect('login_form', unauthorized=True)
 
+
+def settings(request):
+    if request.method == 'GET':
+        return render(request, 'hw_display/settings.html')
+    elif request.method == 'POST':
+        # change password
+        username = request.session.get('username')
+        password = request.session.get('password')
+        if username and password:
+            obj = Homework(payload={'login': username, 'mdp': password})
+            if request.POST['old_password'] != request.session['password']:
+                params = {'invalid_password': True}
+            elif request.POST['password1'] != request.POST['password2']:
+                params = {'incorrect_reenter': True}
+            else:
+                obj.change_password(request.POST['password1'])
+                request.session['password'] = request.POST['password1']
+                params = {'password_change_success': True}
+            return render(request, 'hw_display/settings.html', params)
+        else:
+            return redirect('login_form', unauthorized=True)
+
 if __name__ == '__main__':
-    o = Homework(payload={'login': 't/Ta'})
+    o = Homework(payload={'login': ''})

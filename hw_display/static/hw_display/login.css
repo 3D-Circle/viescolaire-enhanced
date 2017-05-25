@@ -33,21 +33,6 @@ td {
     padding-right: 10px;
 }
 
-input {
-    padding: 10px;
-    border: none;
-    border-bottom: solid 2px #A4A4A4;
-    transition: border 0.3s;
-}
-
-input:focus, input.focus {
-    border-bottom: solid 3px #A4A4A4;
-    outline: none;
-}
-
-input[type="submit"] {
-    margin-top: 5px;
-    padding: 10px 50px 10px 50px;
-    font-size: 18px;
-    background-color: rgb(212, 212, 212);
+tr:first-child {
+    font-size: 16px;
 }
