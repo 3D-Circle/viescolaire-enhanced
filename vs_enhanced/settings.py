@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 import dj_database_url
+import socket
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -143,4 +145,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SESSION_SAVE_EVERY_REQUEST = True
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
+
+if socket.gethostname() != "Lenovo-PC":
+    # do NOT redirect to HTTPS on local
+    SECURE_SSL_REDIRECT = True
