@@ -3,6 +3,12 @@ body {
     font-size: 15px;
 }
 
+
+input, textarea {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}
+
 .bg_wrapper {
     margin-left: 17%;
     margin-right: 17%;
