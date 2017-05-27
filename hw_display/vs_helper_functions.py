@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 
 
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0'}
+BASE_ROOT = 'https://viescolaire.ecolejeanninemanuel.net'
 ARCHIVE_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/'
 WIC_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_archive_seance.php?'
 INDIVIDUAL_WIC_ROOT = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_vw_seance.php?ret=archive&id='
@@ -22,7 +23,7 @@ class PageNotFound(Exception):
 
 
 class Homework(object):
-    def __init__(self, payload):  # payload = get_login()
+    def __init__(self, payload: dict) -> None:  # payload = get_login()
         self.session = requests.session()
         post = self.session.post(
             'https://viescolaire.ecolejeanninemanuel.net/auth.php',
@@ -50,7 +51,7 @@ class Homework(object):
                             self.hw_list.append(_id)
 
     # Get homework details
-    def get_content(self, _id):  # enough with weird formats ! just keep it as an int.
+    def get_content(self, _id: int) -> dict:  # enough with weird formats ! just keep it as an int.
         """Get all info from the _id"""
         assert type(_id) is int  # Yes we even check !
         href = 'https://viescolaire.ecolejeanninemanuel.net/cahiers/e_vw_devoir.php?id='
@@ -87,7 +88,7 @@ class Homework(object):
             content['subject'] = content['subject'].upper()
         return content
 
-    def get_all(self):
+    def get_all(self) -> dict:
         """Get all hw due and sort it"""
         all_hw_dicts = [self.get_content(_id) for _id in self.hw_list]
         # nested defaultdict
@@ -110,14 +111,12 @@ class Homework(object):
             for hw in result[next_week_num][n]:
                 hw['color_style'] = color_style
 
-
-
         return result
 
-    def get_hw_by_id(self, _id):
+    def get_hw_by_id(self, _id: int) -> dict:
         return self.get_content(_id)
 
-    def get_wic_by_id(self, _id):
+    def get_wic_by_id(self, _id: int) -> dict:
         """Get work in class from id (wic = work in class)"""
         soup = BeautifulSoup(self.session.get(f'{INDIVIDUAL_WIC_ROOT}{_id}').content, 'html.parser')
         print(self.clean(soup.find_all('tr')[1].find_all('td')[1].text))
@@ -130,7 +129,7 @@ class Homework(object):
             ).replace('\n', '<br>')
         }
 
-    def get_hw_archives(self, link):
+    def get_hw_archives(self, link: str) -> tuple:
         """Get list of archived hw from a link (which gives the required subject info)"""
         raw_list = self.session.get(f'{ARCHIVE_ROOT}{link}', headers=HEADERS)
         soup = BeautifulSoup(raw_list.content, 'html.parser')
@@ -155,7 +154,7 @@ class Homework(object):
                 hw_archive.append(temp_dict)
         return subject, hw_archive
 
-    def get_wic(self, link):
+    def get_wic(self, link: str) -> tuple:
         """Get list of work done in class from link"""
         raw_list = self.session.get(f'{WIC_ROOT}{link}', headers=HEADERS)
         soup = BeautifulSoup(raw_list.content, 'html.parser')
@@ -178,7 +177,7 @@ class Homework(object):
                 })
         return subject, wic_list
 
-    def change_password(self, new_password):
+    def change_password(self, new_password: str) -> None:
         self.student_id = int(
             self.data.find(id="statut").find('a')['href'].split('=')[-1]
         )  # needed for changing password
@@ -189,7 +188,7 @@ class Homework(object):
         })
 
     @staticmethod
-    def clean(s, newlines=False):
+    def clean(s: str, newlines=False) -> str:
         """Used to clean strings from scraping bouillie"""
         half_cleaned = s.replace('\t', '').replace('\r', '')
         if newlines:
@@ -197,11 +196,25 @@ class Homework(object):
         else:
             return half_cleaned
 
-    def default_to_regular(self, d):
+    def default_to_regular(self, d: collections.defaultdict) -> dict:
         """convert defaultdict to normal dict"""
         if isinstance(d, collections.defaultdict):
             d = {k: self.default_to_regular(v) for k, v in d.items()}
         return d
+
+
+def get_vs_connection():
+    try:
+        return {
+            'is_up': True,
+            'delay': round(requests.get(BASE_ROOT).elapsed.total_seconds(), 3)
+        }
+    except requests.exceptions.ConnectionError:
+        return {
+            'is_up': False,
+            'delay': -1
+        }
+
 
 if __name__ == '__main__':
     o = Homework({'login': 't.takla19@ejm.org', 'mdp': 'EABJTT'})

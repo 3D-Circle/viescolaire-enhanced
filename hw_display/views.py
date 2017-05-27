@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.core.exceptions import ObjectDoesNotExist
-from .vs_helper_functions import Homework, InvalidCredentials, PageNotFound
+from .vs_helper_functions import Homework, InvalidCredentials, PageNotFound, get_vs_connection
 
 
 def homepage(request):
@@ -41,7 +41,9 @@ def vs_login(request):
 
 
 def login_render(request, invalid=False, unauthorized=False):
-    return render(request, 'hw_display/login.html', {'invalid': invalid, 'unauthorized': unauthorized})
+    return render(request, 'hw_display/login.html', {
+        'invalid': invalid, 'unauthorized': unauthorized, 'conn': get_vs_connection()
+    })
 
 
 def show_hw_list(request):
@@ -57,7 +59,10 @@ def show_hw_list(request):
             hw_dict = hw.get_all()
             return render(
                 request, 'hw_display/hw_list.html',
-                {'hw_dict': hw_dict, 'subjects': hw.subjects, 'default_border': 'default_border'}
+                {
+                    'hw_dict': hw_dict, 'subjects': hw.subjects,
+                    'default_border': 'default_border'
+                }
             )
     else:
         return redirect('login_form')

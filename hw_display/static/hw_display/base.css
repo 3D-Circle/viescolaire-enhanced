@@ -4,8 +4,14 @@ body {
 }
 
 .bg_wrapper {
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 17%;
+    margin-right: 17%;
+}
+
+@media (max-width: 900px) {
+    .bg_wrapper {
+        margin: 0;
+    }
 }
 
 .main_wrapper {
@@ -153,3 +159,21 @@ body {
     padding: 40px;
 }
 
+/* connection status box */
+
+.viescolaire_status {
+    position: absolute;
+    text-align: center;
+    font-size: 14px;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    width: 400px;
+    margin: auto;
+}
+
+.error {
+    font-size: 16px;
+    color: red;
+    font-weight: bold;
+}

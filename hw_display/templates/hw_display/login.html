@@ -56,4 +56,11 @@
             </table>
         </form>
     </div>
+    <div class="viescolaire_status">
+        {% if conn.is_up %}
+            Viescolaire is up - delay: {{ conn.delay }} seconds.
+        {% else %}
+            <span class="error">Viescolaire might be down. Retry in a few seconds ...</span>
+        {% endif %}
+    </div>
 {% endblock %}
