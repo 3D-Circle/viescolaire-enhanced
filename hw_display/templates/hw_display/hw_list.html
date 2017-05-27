@@ -30,16 +30,18 @@
         <div class="main_wrapper">
             <div id="control_bar">
                 Howdy, {{ request.user.username }}.
-                <a href="/settings" class="button_link">
-                    <button class="top_control_button button">
-                        Settings
-                    </button>
-                </a>
-                <a href="/logout/" class="button_link">
-                    <button class="top_control_button button">
-                        Logout
-                    </button>
-                </a>
+                <div id="responsive_control_bar">
+                    <a href="/settings" class="button_link">
+                        <button class="top_control_button button">
+                            Settings
+                        </button>
+                    </a>
+                    <a href="/logout/" class="button_link">
+                        <button class="top_control_button button">
+                            Logout
+                        </button>
+                    </a>
+                </div>
             </div>
 
             {% with number_of_cols="3" %}
@@ -93,8 +95,10 @@
                     <option value="{{ link }}">{{ subject }}</option>
                 {% endfor %}
             </select>
-            <button class="button" onclick="load_archive()">Homework Archive</button>
-            <button class="button" onclick="load_work_in_class()">Work done in class</button>
+            <div id="responsive_footer">
+                <button class="button" onclick="load_archive()">Homework Archive</button>
+                <button class="button" onclick="load_work_in_class()">Work done in class</button>
+            </div>
         </div>
     </div>
 {% endblock %}

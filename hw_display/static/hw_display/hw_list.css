@@ -15,6 +15,20 @@ Buttons    | rgba(255, 195, 102, 0.81)
     text-align: center;
 } /* buttons are in base.css */
 
+
+/* responsiveness */
+#responsive_control_bar {
+    display: inline;
+}
+
+@media (max-width: 375px) {
+    #responsive_control_bar {
+        display: block;
+        margin-top: 7px;
+    }
+}
+
+
 /* content */
 #main_wrapper {
     margin: 2px 20% 2px 20%;
@@ -92,4 +106,18 @@ select {
     padding: 5px;
     height: 34px;
     text-align: center;
+}
+
+
+/* responsiveness */
+
+#responsive_footer {
+    display: inline;
+}
+
+@media (max-width: 515px) {
+    #responsive_footer {
+        display: block;
+        margin-top: 7px;
+    }
 }

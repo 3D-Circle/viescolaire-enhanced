@@ -162,13 +162,13 @@ body {
 /* connection status box */
 
 .viescolaire_status {
-    position: absolute;
+    position: fixed;
     text-align: center;
     font-size: 14px;
     bottom: 10px;
     left: 0;
     right: 0;
-    width: 400px;
+    width: 100%;
     margin: auto;
 }
 
