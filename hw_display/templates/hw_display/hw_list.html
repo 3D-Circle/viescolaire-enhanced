@@ -20,6 +20,7 @@
     </script>
 {% endblock %}
 
+
 {% block content %}
     <div class="bg_wrapper">
         <div class="main_wrapper title_box">
@@ -41,14 +42,19 @@
                 </a>
             </div>
 
+            {% with number_of_cols="3" %}
             <table class="hw_table main_table">
             <tbody>
                 {% for week_num, week_content in hw_dict.items %}
                     {% for day_num, day_content in week_content.items %}
                         {% for hw in day_content %}
-                            <tr><td class="small_coloured_separator" colspan="3"></td></tr>
+                            <tr>
+                                <td colspan="{{ number_of_cols }}"
+                                    class="small_coloured_separator {% firstof hw.color_style default_border %}">
+                                </td>
+                            </tr>
                             <tr class="hw_row">
-                                <td style="text-align: center;">
+                                <td style="text-align: center;" class="{% firstof hw.color_style default_border %}">
                                     {{ hw.subject }}
                                 </td>
                                 <td width="80%">
@@ -61,7 +67,9 @@
                                 </td>
                             </tr>
                             {% if forloop.counter == day_content|length %}
-                                <tr><td class="small_coloured_separator" colspan="3"></td></tr>
+                                <tr><td colspan="{{ number_of_cols }}"
+                                        class="small_coloured_separator {% firstof hw.color_style default_border %}">
+                                </td></tr>
                             {% endif %}
                         {% endfor %}
 
@@ -70,12 +78,13 @@
                         {% endif %}
 
                     {% endfor %}
-                    <tr><td colspan="3" class="small_separator"></td></tr>
-                    <tr><td colspan="3" class="weekend_separator">WEEKEND</td></tr>
-                    <tr><td colspan="3" class="small_separator"></td></tr>
+                    <tr><td colspan="{{ number_of_cols }}" class="small_separator"></td></tr>
+                    <tr><td colspan="{{ number_of_cols }}" class="weekend_separator">WEEKEND</td></tr>
+                    <tr><td colspan="{{ number_of_cols }}" class="small_separator"></td></tr>
                 {% endfor %}
             </tbody>
             </table>
+            {% endwith %}
         </div>
 
         <div id="bottom_wrapper" class="main_wrapper">

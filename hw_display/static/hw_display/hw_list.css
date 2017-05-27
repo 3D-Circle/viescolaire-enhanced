@@ -53,6 +53,23 @@ Buttons    | rgba(255, 195, 102, 0.81)
     background: #C0D1F0;
 }
 
+/* color codes */
+td.color_code {
+    width: 5px;
+}
+
+td.red_border {
+    border-left: 3px solid red;
+}
+
+td.orange_border {
+    border-left: 3px solid orange;
+}
+
+td.default_border {
+    border-left: 3px solid #c2b280;
+}
+
 /* footer */
 #bottom_wrapper {
     text-align: center;

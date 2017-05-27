@@ -98,7 +98,21 @@ class Homework(object):
             week_number = day_due.isocalendar()[1]
             day_number = (day_due - datetime(1970, 1, 1)).days
             divided_dict[week_number][day_number].append(single_hw)
-        return self.default_to_regular(divided_dict)  # sorted(all_hw_dicts, key=lambda x: x['days_left'])
+        result = self.default_to_regular(divided_dict)
+        today = (datetime.now() - datetime(1970, 1, 1)).days
+        next_week_num = sorted(result)[0]
+        next_week = sorted(result[next_week_num])
+        for n in next_week:
+            if n - today < 3:
+                color_style = 'red_border'
+            else:
+                color_style = 'orange_border'
+            for hw in result[next_week_num][n]:
+                hw['color_style'] = color_style
+
+
+
+        return result
 
     def get_hw_by_id(self, _id):
         return self.get_content(_id)

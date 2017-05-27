@@ -145,8 +145,9 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SESSION_SAVE_EVERY_REQUEST = True
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
 
 if socket.gethostname() != "Lenovo-PC":
     # do NOT redirect to HTTPS on local
     SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True

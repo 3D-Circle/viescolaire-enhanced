@@ -43,6 +43,43 @@ body {
     outline: none;
 }
 
+/* Icon Back */
+.go_back {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px transparent;
+    position: relative;
+    padding-left: 2.2em;
+    -webkit-transition-duration: 0.1s;
+    transition-duration: 0.1s;
+}
+
+.go_back:before {
+    content: "\f137";
+    position: absolute;
+    left: 1em;
+    top: .53em;
+    padding: 0 1px;
+    font-family: FontAwesome;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-transition-duration: 0.1s;
+    transition-duration: 0.1s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+.go_back:hover:before,
+.go_back:focus:before,
+.go_back:active:before {
+    -webkit-transform: translateX(-4px);
+    transform: translateX(-4px);
+}
+
 /* Hw table template */
 
 .hw_table {
