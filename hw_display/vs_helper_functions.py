@@ -101,15 +101,16 @@ class Homework(object):
             divided_dict[week_number][day_number].append(single_hw)
         result = self.default_to_regular(divided_dict)
         today = (datetime.now() - datetime(1970, 1, 1)).days
-        next_week_num = sorted(result)[0]
-        next_week = sorted(result[next_week_num])
-        for n in next_week:
-            if n - today < 3:
-                color_style = 'red_border'
-            else:
-                color_style = 'orange_border'
-            for hw in result[next_week_num][n]:
-                hw['color_style'] = color_style
+        if result:
+            next_week_num = sorted(result)[0]
+            next_week = sorted(result[next_week_num])
+            for n in next_week:
+                if n - today < 3:
+                    color_style = 'red_border'
+                else:
+                    color_style = 'orange_border'
+                for hw in result[next_week_num][n]:
+                    hw['color_style'] = color_style
 
         return result
 
