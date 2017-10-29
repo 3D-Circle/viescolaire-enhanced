@@ -1,3 +1,9 @@
+# DEPRECATED
+
+Pronote can't be parsed `¯\_(ツ)_/¯`
+
+---
+
 # viescolaire-enhanced
 A better viescolaire. For all of us !
 
