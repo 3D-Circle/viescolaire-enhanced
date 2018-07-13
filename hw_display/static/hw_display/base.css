@@ -3,7 +3,7 @@ body {
     font-size: 15px;
 }
 
-
+/* fix ugly ios CSS */
 input, textarea {
   -webkit-appearance: none;
   -webkit-border-radius: 0;
